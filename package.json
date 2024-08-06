@@ -1,0 +1,16 @@
+{
+  "name": "exposicion-is2",
+  "version": "1.0.0",
+  "description": "*Members:*\r - Ludy Astrid Agudelo\r - Juan Diego Cortes\r - Juan David Borrero\r - Alejandro Bravo Isajar",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.19.2",
+    "mysql": "^2.18.1"
+  }
+}
