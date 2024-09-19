@@ -7,6 +7,8 @@ const mysql = require('mysql');
 const app = express();
 const PORT = 3000;
 
+const uri = "/v1/items";
+
 // Configuración de la conexión a la base de datos MySQL
 const db = mysql.createConnection({
     host: 'localhost', 
@@ -30,7 +32,7 @@ app.use(bodyParser.json());
 // Rutas
 
 // Obtener todos los elementos
-app.get('/items', (req, res) => {
+app.get(uri, (req, res) => {
     const query = 'SELECT * FROM items';
     db.query(query, (err, results) => {
         if (err) {
@@ -42,7 +44,7 @@ app.get('/items', (req, res) => {
 });
 
 // Obtener un elemento específico por su ID
-app.get('/items/:id', (req, res) => {
+app.get(`${uri}/:id`, (req, res) => {
     const itemId = req.params.id;
     const query = 'SELECT * FROM items WHERE id = ?';
     db.query(query, [itemId], (err, results) => {
@@ -57,7 +59,7 @@ app.get('/items/:id', (req, res) => {
 });
 
 // Crear un nuevo elemento
-app.post('/items', (req, res) => {
+app.post(`${uri}`, (req, res) => {
     const newItem = req.body;
     const query = 'INSERT INTO items (name, description) VALUES (?, ?)';
     db.query(query, [newItem.name, newItem.description], (err, result) => {
@@ -71,7 +73,7 @@ app.post('/items', (req, res) => {
 });
 
 // Actualizar un elemento existente
-app.put('/items/:id', (req, res) => {
+app.put(`${uri}/:id`, (req, res) => {
     const itemId = req.params.id;
     const updatedItem = req.body;
     const query = 'UPDATE items SET name = ?, description = ? WHERE id = ?';
@@ -85,7 +87,7 @@ app.put('/items/:id', (req, res) => {
 });
 
 // Eliminar un elemento
-app.delete('/items/:id', (req, res) => {
+app.delete(`${uri}/:id`, (req, res) => {
     const itemId = req.params.id;
     const query = 'DELETE FROM items WHERE id = ?';
     db.query(query, [itemId], (err, result) => {

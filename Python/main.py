@@ -5,6 +5,8 @@ from mysql.connector import Error
 app = Flask(__name__)
 PORT = 3000
 
+uri = "/v1/items"
+
 # Configuración de la conexión a la base de datos MySQL
 def create_connection():
     connection = None
@@ -22,7 +24,7 @@ def create_connection():
     return connection
 
 # Obtener todos los elementos
-@app.route('/items', methods=['GET']) 
+@app.route(uri, methods=['GET']) 
 def get_items():
     connection = create_connection()
     cursor = connection.cursor(dictionary=True) # Se crea un cursor con el parámetro dictionary=True para obtener los resultados como diccionarios
@@ -33,7 +35,7 @@ def get_items():
     return jsonify(results)
 
 # Obtener un elemento específico por su ID
-@app.route('/items/<int:id>', methods=['GET'])
+@app.route(f'{uri}/<int:id>', methods=['GET'])
 def get_item(id):
     connection = create_connection()
     cursor = connection.cursor(dictionary=True)
@@ -46,7 +48,7 @@ def get_item(id):
     return jsonify(results[0])
 
 # Crear un nuevo elemento
-@app.route('/items', methods=['POST'])
+@app.route(uri, methods=['POST'])
 def create_item():
     new_item = request.json
     connection = create_connection()
@@ -59,7 +61,7 @@ def create_item():
     return jsonify(new_item), 201
 
 # Actualizar un elemento existente
-@app.route('/items/<int:id>', methods=['PUT'])
+@app.route(f'{uri}/<int:id>', methods=['PUT'])
 def update_item(id):
     updated_item = request.json
     connection = create_connection()
@@ -71,7 +73,7 @@ def update_item(id):
     return jsonify(updated_item)
 
 # Eliminar un elemento
-@app.route('/items/<int:id>', methods=['DELETE'])
+@app.route(f'{uri}/<int:id>', methods=['DELETE'])
 def delete_item(id):
     connection = create_connection()
     cursor = connection.cursor()
